@@ -348,11 +348,108 @@ Christopher 在演讲中提到了大型css代码库的主要问题：
 使用Radium，可以在行内样式增加伪类和媒体查询等功能。Radium在内部使用js来模拟伪类，而不是css实现。
 
 
+# 第9章 提升应用性能
+## 9.1 一致性比较与key属性
+一致性比较：
+> 当渲染组件时，React调用自己的渲染方法，还会递归调用子组件的渲染方法。组件的渲染方法会返回React元素树，然后React根据它来判断更新UI需要执行哪些DOM操作。
+> 当组件的状态发生变化时，React会再次调用该组件的渲染方法，将结果和之前的React元素进行比较。React能够计算出使屏幕上产生变化所需的最小操作集合，这个过程就称为 __一致性比较__ 
+
+React会尽可能少的操作DOM，为了降低比较过程的开销及复杂度，引入了key属性来标记子组件，使得在渲染过程中得以保留。
+
 # 第10章
+## 10.1 测试的好处
+Web UI测试一直很难，如果测试难以编写和维护，很难讲测试覆盖整个应用。
+React组件化的开发方式使得UI的测试变得更加简单和高效，如果合理地开发组件，做到模块化和可复用，也能像简单函数那样测试她们。
+编写测试的技巧有很多，__测试驱动开发（TDD）__ 是其中流行的一种，即先编写测试，再编写能够通过测试的代码。
+
+## 10.2 用Jest测试JavaScript
+使用Jest需要安装，
+```bash
+npm install --save-dev jest
+```
+并在package.json中添加以下脚本：
+```json
+"script": {
+  "test": "jest"
+}
+```
+Jest会在源代码文件夹中寻找以 `.spec` 、 `.test` 结尾的文件，或者位于 `__test__folder` 文件夹下的文件。
+
+在React中，结合 `react-addons-test-utils` 进行测试，TestUtils库提供的函数可以用来浅渲染组件，还能模拟浏览器事件。使用方法可以看书或者官方文档，这里不不一一列出了。
+
+## 10.3 Mocha
+Jest是一个高度集成的测试框架，尝试自动完成一切操作，而Mocha需要你自行决定使用哪些工具来测试。
+使用Mocha，除了上述的 `react-addons-test-utils` 外，还需要配合使用其他包：`chai` 、 `chai-spies` 、 `jsdom` 。
+* chai 编写预测代码
+* chai-spies 用于检查方法是否被调用过
+* jsdom 用于创建独立DOM
+Mocha约定测试用例放在 test 文件夹下。
+
+## 10.4 Enzyme
+使用 TestUtils 比较繁琐，Airbnb 开发了 Enzyme，它基于TestUtils构建，可以更方便地操作渲染后的组件。
+
+## 10.7 代码覆盖率工具
+流行的代码覆盖率工具之一是 Istanbul ，Jest内置，Mocha需要手动安装。
+对于Jest，在命令后加上 `-coverage` 即可：
+```bash
+jest -coverage
+```
+
+
+## 10.9 React开发者工具
+安装Chrome扩展工具 `react-developer-tools` 即可。
+
 ## 10.10 React错误处理
 在React中，如果单个组件抛出异常，它会停止渲染整棵树。这么做是为了提升安全性，也避免了状态不一致。
 如果想在一个组件发生错误时，不影响其他组件的继续渲染，可以使用 `react-component-errors` 库，它会给所有组件方法上加上猴子补丁，并封装到 `try...catch` 中，这种做法在性能与库的兼容性方面有一定缺陷，在生产环境尽量避免使用。
 
+# 第11章 需要避免的反模式
+## 11.1 用prop 初始化状态
+应该避免使用prop来初始化状态，如：
+```jsx
+// Counter
+constructor(props){
+  super(props)
 
+  this.state = {
+    count: props.count
+  }
+}
+// parent
+<Counter count={1} />
+```
+
+主要由两个原因：
+* 违背了单一数据源原则；
+* 传给组件的count发生改变，状态不会相应的更新。
+
+建议使用一个初始值的属性来表达这个含义：
+```jsx
+// Counter
+constructor(props){
+  super(props)
+
+  this.state = {
+    count: props.initialCount
+  }
+}
+// parent
+<Counter initialCount={1} />
+```
+
+## 11.2 修改状态
+对应状态的修改，一定要使用 `setState` 方法进行修改，不要试图直接修改状态对象。
+
+## 11.3 将数组索引作为key
+对于key属性，要保证唯一性和稳定，在对数组进行迭代渲染时，避免使用数组索引作为key，数组更改了，但是key不变会导致意外的情况发生。
+
+## 11.4 在DOM元素上展开props对象
+使用展开操作符，能够方便很多。然而，对于DOM元素，如果展开props对象，就会有添加未知HTML属性的风险，尽量使用确定的props进行操作。
+
+
+# 第12章 未来的行动
+* 给React提issue或者pull request。
+* 分享自己的代码
+* 发布npm包
 
 

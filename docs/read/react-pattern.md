@@ -356,6 +356,105 @@ Christopher 在演讲中提到了大型css代码库的主要问题：
 
 React会尽可能少的操作DOM，为了降低比较过程的开销及复杂度，引入了key属性来标记子组件，使得在渲染过程中得以保留。
 
+开发过程中可以使用 `react-addons-perf` 来记录和显示性能相关的信息。
+```jsx
+import Perf from 'react-addons-perf'
+class Counter extends React.Component {
+  componentWillUpdate(){
+    Perf.start()
+  }
+  componentDidUpdate() {
+    Perf.stop()
+    Perf.printOperations()
+  }
+  render() {
+    return <div />
+  }
+}
+```
+
+> `react-addons-perf`这个插件在React 16不被支持，可以使用Chrome开发者工具进行查看，具体参考：[https://reactjs.org/docs/perf.html](https://reactjs.org/docs/perf.html)。
+
+## 9.2 优化手段
+* 对于生产环境，webpack配置开启压缩
+```javascript
+// 这里是老版本的配置了，webpack 4的配置发生了变化
+new webpack.DefinePlugin({
+  'process.env': {
+    NODE_ENV: JSON.stringify('production')
+  }
+})
+new webpack.optimize.UglifyJsPlugin()
+```
+* 结合使用 shouldComponentUpdate 和 React.PureComponent
+* 使用无状态组件并不会带来性能上的提升，将来可能会得到优化
+
+## 9.3 常用解决方案
+### why-did-you-update
+开发模式使用 `why-did-you-update` ，可以告诉我们哪些组件可以避免重复渲染。
+在React的import语句后面加上以下代码：
+```javascript
+if (process.env.NODE_ENV !== 'production') {
+  const { whyDidYouUpdate } = require('why-did-you-update')
+  whyDidYouUpdate(React)
+}
+```
+
+### 渲染方法中创建函数
+避免在render方法中创建新的函数。如：
+```jsx
+<button onClick={()=>this.handleClick} />
+```
+上述代码可以改为：
+```jsx
+constructor(props){
+  super(props)
+  this.handleClick = this.handleClick.bind(this)
+}
+render() {
+  return <button onClick={this.handleClick} />
+}
+```
+避免每次调用时产生新的回调函数，特别是在对子组件传递props时，防止子组件发生无用的重复渲染。
+
+### props常量
+传递props时，避免传递新的实例。如：
+```jsx
+<Item status={['open', 'close']} />
+```
+当父组件渲染时，组件props没有发生变化，但都会给Item组件传入新的数组实例，导致不必要的渲染。
+可以改成：
+```jsx
+const status = ['open', 'close']
+...
+<Item status={status} />
+```
+
+### 重构与良好设计
+将组件拆分成多个小组件，各自负责简单的职责和状态，组件间的交互通过父组件实现，避免一处更改其他也渲染的情况。
+
+## 9.4 工具与库
+### 不可变性
+对应复杂的数据，每次修改对象时都创建新的实例：
+```javascript
+const obj = Object.assign({}, this.state.obj, { foo: 'bar' })
+this.setState({ obj })
+// 或者使用展开操作符
+const obj = { ...this.state.obj, foo: 'bar' }
+this.setState({ obj })
+```
+
+也可以结合 immutable.js。
+
+### 性能监控工具
+前面介绍了  `react-addons-perf` 工具，但是需要修改代码，并且对我们的进行了污染。可以使用 `chrome-react-perf` 扩展工具。
+另一个工具是 `react-perf-tool` ，它会在页面底部显示一个控制台，在这里开启或关闭监控。
+
+### Babel插件
+* babel-plugin-transform-react-constant-elements，常量元素转换器，它会寻找不随props改变的所有静态元素，将它们从渲染方法中抽离出来；
+* babel-plugin-transform-react-inline-elements，行内元素转换器，将所有jsx声明替换成优化过的版本。
+这两个插件只应该在生产环境中启用，它会使开发环境中的调试变得困难。
+
 # 第10章
 ## 10.1 测试的好处
 Web UI测试一直很难，如果测试难以编写和维护，很难讲测试覆盖整个应用。

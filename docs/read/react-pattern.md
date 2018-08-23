@@ -300,6 +300,121 @@ const component = ReactTestUtils.renderIntoDocument(<div><Button /></div>)
 * 优化
 因为没有shouldComponentUpdate方法，所以无法在props变化时才渲染函数式组件。
 
+## 3.2 状态
+状态管理的外部库有Redux或 Mobx。
+
+React组件可以拥有初始状态，在组件的生命周期中，调用setState方法多次修改状态，当状态发生变化时，React就用新状态渲染组件。
+setState方法是异步的，如果需要在状态更新完成时执行一些操作，可以向setState的第二个参数传递函数，当状态更新完成时会触发该函数，同时组件完成渲染。
+
+React的工作方式很像状态机，我们可以应用或撤销状态变化，对调试很有帮助。可以使用 `react-lumberjack` 库，对于理解状态的变化相当有用，它的作者Ryan Florence也是 `react-router` 的开发者。可以使用npm安装，也可以时间引入到页面中：
+```html
+<script src="https://npmcdn.com/react-lumberjack@1.0.0"></script>
+```
+在要调试的时候在控制台中输入：
+```javascript
+Lumberjack.back()
+```
+上述代码可以在时间上回退并撤销状态的改变，
+```javascript
+Lumberjack.forward()
+```
+上述代码可以在时间上前进并重新应用状态的改变。
+生产环境不要使用！！！
+
+> 该库已经没有更新了，上次发布（2.0.0）还是2年前。可能被其他库或工具替代了
+
+## 3.3 prop类型
+React提供了对prop名称与对应的验证规则工具 `PropTypes` ，确保清晰地定义组件及其参数。
+```jsx
+const Button = ({ text }) => <button>{text}</button>
+Button.propTypes = {
+  text: React.PropTypes.string,
+}
+```
+以上代码创建一个无状态函数式组件，以接收一个类型为字符串的文本prop。
+我们还可以将其设为必需：
+```jsx
+Button.propTypes = {
+  text: React.PropTypes.string.isRequired,
+}
+```
+如果传入的参数不符合，会在控制台给出警告，这种警告只在开发模式中出现，生产版本React出于性能原因禁用了propTypes验证。
+PropTypes提供了多种验证方式，还能支持自定义验证函数。
+> 在新版React中，PropTypes已经从React中单独抽离出来了。
+
+### React Docgen
+使用 `react-docgen` 可以从prop类型及其注释中提取相关信息，生成json对象的接口描述，可以利用返回的对象来创建文档。
+
+## 3.4 可复用组件
+将大的组件拆分成小型组件、单一职责的组件，更容易维护与测试。
+用prop创建通用清晰的接口，使得一个面向单一需求的组件变得可复用。
+
+## 3.5 可用的风格指南
+主要讲了使用 `react-storybook` 工具能让你编写故事文档来表示组件的可能状态。没看懂，有兴趣的自行搜索。
+
+# 第4章 组合一切
+## 4.1 组件间的通信
+接口清晰的小型组件可以组合出复杂的应用，同时又能确保应用的强大和可维护性。
+组件之间通过 props 共享数据，父组件通过props将数据向下传递，组件树中的每个组件都能接收。
+children 是一个特殊的 prop，拥有者组件可以将它传递给渲染方法内定义的组件。
+
+## 4.2 容器组件与表现组件模式
+React组件通常包含杂合在一起的 __逻辑__ 与 __表现__ 。逻辑一般指与UI无关的API调用、数据操作或事件处理器等；表现则是指渲染方法中创建元素用来显示UI的部分。
+React 有一个模式，称为 __容器组件__ 与 __表现组件__ 。
+容器组件包含有关组件逻辑的一切，负责处理数据操作、事件处理和API的调用。
+UI定义在表现组件中，并且以prop的形式从容器组件接收数据。
+
+__容器组件__ ：
+* 更关心行为部分；
+* 负责渲染对应的表现组件；
+* 发起API请求并操作数据；
+* 定义事件处理器；
+* 写作类的形式
+__表现组件__ ：
+* 更关心视觉表现；
+* 负责渲染HTML标记（或其他组件）；
+* 以props的形式从父组件接收数据；
+* 通常写作无状态函数式组件。
+
+## 4.3 mixin
+mixin现在不推荐使用了，现在推荐使用高阶组件的方式，如果需要维护旧版React开发的项目，可以了解下。
+mixin只能和createClass 工厂方法结合使用，无法在class中使用。
+
+## 4.4 高阶组件
+当高阶函数应用在组件上时，我们称为高阶组件。
+```jsx
+const HoC = Component => EnhancedComponent
+```
+高阶组件其实就是函数，它接收组件作为参数，对组件进行增强后返回。
+
+## 4.5 recompose
+recompose 是一个很流行的库，提供了许多有用的高阶组件，而且可以优雅地组合它们。
+
+recompose提供了一个getContext函数，使得 context 的使用变得简单易懂，接收props 的过程也更加直观。
+
+## 4.6 函数子组件
+函数子组件的模式主要概念是，不按组件的形式传递子组件，而是定义一个可以从父组件接收参数的函数。react-motion 就广泛运用了该模式。
+```jsx
+const FunctionAsChild = ({ children }) => children()
+FunctionAsChild.propTypes = {
+  children: React.PropTypes.func.isRequired,
+}
+```
+FunctionAsChild 组件拥有定义为函数的 children 属性。
+上述组件用法如下：
+```jsx
+<FunctionAsChild>
+  {() => <div>Hello, World!</div>}
+</FunctionAsChild>
+```
+原理很简单：父组件渲染方法触发了子函数，返回div标签显示到屏幕上。
+
+这种模式可以像高阶组件那样封装组件，在运行时为它们传递变量而不是固定属性。
+
+# 第5章 恰当地获取数据
+## 5.1 数据流
+
+
 # 第6章 为浏览器编写代码
 ## 6.2 事件
 React 在根元素上添加单个事件处理器，利用__事件冒泡机制__，处理器会监听所有事件。这个技巧称为__事件代理__。

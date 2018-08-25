@@ -413,7 +413,18 @@ FunctionAsChild 组件拥有定义为函数的 children 属性。
 
 # 第5章 恰当地获取数据
 ## 5.1 数据流
+React 允许数据从根节点流向叶节点，这种模式称为 __单向数据流__ 。每个组件都以prop 的形式从父组件接收数据，并且prop无法修改。
+* 子组件与父组件通信，通常采用回调函数来实现，子组件触发props上传来的函数，进而将数据或事件传递给父组件。
+* 子组件间的通信，采用共有父组件形式。子组件要传递数据时，通过回调传递给父组件，再通过父组件更改子组件的props，进而实现子组件间的相互通信。
 
+## 5.2 数据获取
+用于获取数据的代码可以放在两个生命周期钩子中： componentWillMount 和 componentDidMount。
+前者会在组件首次渲染前触发，后者则在组件挂载完成后立即触发，服务端渲染和客户端渲染都会触发componentWillMount 函数，当在服务端渲染组件时，触发异步API会带来预料之外的结果。
+推荐只在componentDidMount钩子函数中请求数据。
+> 还有一个不推荐在 componentWillMount 中请求数据的原因就是，数据获取到了，需要setState更改状态，但此时组件还未渲染完成（未挂载）则会报错。在 componentDidMount 中能避免这个问题。
+
+## 5.3 react-refetch
+一个发送API请求的库。
 
 # 第6章 为浏览器编写代码
 ## 6.2 事件
@@ -422,12 +433,12 @@ React 在根元素上添加单个事件处理器，利用__事件冒泡机制__�
 ## 6.3 ref
 对非原生组件设置ref，接收到的回调参数引用不是 __DOM__ 节点实例，而是组件本身的实例，它允许我们访问子组件的内部实例，尽量避免这么做。
 
-# 6.4 动画
+## 6.4 动画
 介绍了两个动画库：
 * [react-addons-css-transition-group](https://www.npmjs.com/package/react-addons-css-transition-group)  不过已经推荐使用 [CSSTransitionGroup](https://github.com/reactjs/react-transition-group) 了
 * [react-motion](https://www.npmjs.com/package/react-motion) 
 
-# 6.5 SVG
+## 6.5 SVG
 SVG 声明式描述矢量，和 React 理念很匹配。
 可以直接封装一个SVG 元素：
 ```javascript
@@ -461,6 +472,76 @@ Christopher 在演讲中提到了大型css代码库的主要问题：
 
 ## 7.3 Radium
 使用Radium，可以在行内样式增加伪类和媒体查询等功能。Radium在内部使用js来模拟伪类，而不是css实现。
+
+## 7.4 CSS模块
+Webpack理论上可以加载除js以外的任何依赖，只要有对应的加载器，它可以在打包文件中加载json文件、图片以及其他资源，它也能打包CSS。webpack能将CSS模块加载打包成局部作用域的CSS。
+webpack打包CSS，一般会使用 `style-loader` 和 `css-loader` 。
+我们可以在React中这样引入css：
+```jsx
+import styles from './index.css'
+```
+上述使用会将CSS注入到html中，如果需要将它们提取出来，放到CDN中，可以使用 `extract-text-plugin` 的webpack插件。
+
+## 7.5 Styled Component
+Styled Component是用来解决组件样式问题的库，它的语法有点奇怪，并且支持SASS风格的伪类语法，也支持媒体查询。
+```jsx
+import styled from 'styled-components'
+// ...
+const Button = styled.button`
+  background-color: #ff0000;
+  width: 320px;
+  padding: 20px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  &:hover {
+  color: #fff;
+  }
+  &:active {
+  position: relative;
+  top: 2px;
+  }
+  @media (max-width: 480px) {
+  width: 160px;
+  }
+`
+```
+上述代码，渲染的组件如下：
+```jsx
+<button class="kYvFOg">Click me!</button>
+```
+它渲染了一个按钮元素，并加上了模板中定义的样式，样式会注入到页面文档头部。
+```css
+.kYvFOg {
+  background-color: #ff0000;
+  width: 320px;
+  padding: 20px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  ...
+}
+```
+
+这个库的另一项特性是 __主题__ ，将组件封装在ThemeProvider组件中，可以为组件树注入主题属性，创建UI 会变得非常方便。
+
+# 第8章 服务端渲染的乐趣与益处
+## 8.1 通用应用
+通用应用是指应用的代码可以同时用于服务端和客户端。
+React在服务端渲染相同的组件，这个特性称为 __服务端渲染__ （SSR），vue也支持SSR。
+
+## 8.2 使用服务端渲染的原因
+* SEO，主要原因，对于React应用来说，服务端返回一个空壳HTML，对于爬虫是没有任何意义的；
+* 通用代码库，服务端和客户端共享逻辑，维护成本低；
+* 性能更强，用户一访问页面就能看到部分内容，大大提升感知性能，用户留下来的可能性更高。
+
+服务端渲染是有代价的，只有真正需要时才应该启用服务端渲染。建议先开发客户端版本，当web应用能良好地服务端运行时，才应该启用服务端渲染来改善体验。
+
+## 8.3-8.4 基础示例
+构建服务端，webpack配置和客户端有点差别之外，基本大同小异。
+
+## 8.5 Next.js
+使用Next.js，基本无须任何配置就能方便地搭建一个通用应用，而且支持热模块替换，开发模式下非常有用。
 
 
 # 第9章 提升应用性能

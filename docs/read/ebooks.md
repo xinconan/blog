@@ -1,4 +1,5 @@
 ## 图灵
+- 深入理解TensorFlow：架构设计与实现原理
 - 计算机科学精粹
 - PostgreSQL即学即用（第3版）
 - Python科学计算最佳实践：SciPy指南
@@ -750,7 +751,7 @@
 - Python物理学高效计算
 - CSS世界  [✔]
 - OpenStack云计算实战手册（第3版）
-- DevOps开发运维训练营
+- DevOps开发运维训练营  [✔]
 - React Native移动开发实战
 - 营销人秘密手记——职场 赚钱 创业 成长
 - C程序设计新思维（第2版）
@@ -776,7 +777,7 @@
 - Yii框架深度剖析
 - Linux二进制分析  [✔]
 - R语言编程指南
-- Kafka入门与实践
+- Kafka入门与实践  [✔]
 - Windows PowerShell实战指南（第3版）  [✔]
 - TensorFlow机器学习项目实战
 - QQ微信创意表情包设计
@@ -819,7 +820,7 @@
 - Web性能实践日志
 - Python入门经典
 - Haskell并行与并发编程
-- 我在MINECRAFT建城市——我的世界规划建造完全攻略
+- 我在MINECRAFT建城市——我的世界规划建造完全攻略  [✔]
 - Java学习指南
 - HTML5开发手册
 - JavaScript高效图形编程（修订版）

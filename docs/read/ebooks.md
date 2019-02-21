@@ -697,6 +697,12 @@
 
 
 ## 异步
+- 青少年学Python
+- Kali Linux 2网络渗透测试实践指南
+- Python编程无师自通——专业程序员的养成
+- PHP、MySQL和JavaScript入门经典（第6版）
+- Keras深度学习实战
+- Spring学习指南 （第3版）
 - Spring源码深度解析（第2版）
 - 软件调试（第2版）卷1：硬件基础
 - 微服务实践

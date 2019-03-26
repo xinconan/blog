@@ -1,4 +1,7 @@
 ## 图灵
+- React Native开发指南（第2版）
+- Java少儿编程
+- 生命是什么
 - 卷积神经网络的Python实现
 - Docker——容器与容器云（第2版）
 - shell脚本实战（第2版）
@@ -214,7 +217,7 @@
 - 设计师要懂心理学2
 - Ruby on Rails 教程（原书第4版）  [✔]
 - Python数据挖掘入门与实践  [✔]
-- React Native开发指南
+- React Native开发指南  [✔]
 - Git小书
 - R语言入门与实践
 - 走近2050：注意力、互联网与人工智能
@@ -285,7 +288,7 @@
 - JavaScript Web应用开发
 - Spark快速大数据分析
 - 学习JavaScript数据结构与算法
-- EECS应用概率论
+- EECS应用概率论  [✔]
 - 码农·Docker云图（第20期）  [☀]
 - 统计思维：程序员数学之概率统计（第2版）
 - 函数式编程思维
@@ -702,6 +705,15 @@
 
 
 ## 异步
+- 无人机详解与剖析
+- 机器人爱好者 第7辑
+- Python和NLTK自然语言处理
+- SQL Server On Linux运维实战
+- 人人都是数据分析师：微软Power BI实践指南
+- Python机器学习
+- Scratch 3.0少儿游戏趣味编程
+- scikit-learn机器学习（第2版）
+- ABAQUS 6.14超级学习手册
 - 青少年学Python
 - Kali Linux 2网络渗透测试实践指南
 - Python编程无师自通——专业程序员的养成
@@ -799,7 +811,7 @@
 - CSS世界  [✔]
 - OpenStack云计算实战手册（第3版）
 - DevOps开发运维训练营  [✔]
-- React Native移动开发实战
+- React Native移动开发实战  [✔]
 - 营销人秘密手记——职场 赚钱 创业 成长
 - C程序设计新思维（第2版）
 - 从Excel到SQL 数据分析进阶指南

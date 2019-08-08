@@ -1,4 +1,6 @@
 ## 图灵
+- 深度学习基础与实践
+- SQLAlchemy：Python数据库实战
 - Bootstrap实战（第2版）
 - Python数据科学与机器学习：从入门到实践
 - 深入理解Python特性
@@ -12,7 +14,7 @@
 - 精通特征工程  [✔]
 - Python网络爬虫权威指南（第2版）
 - 数据结构与算法图解  [✔]
-- React Native开发指南（第2版）
+- React Native开发指南（第2版）  [✔]
 - Java少儿编程
 - 生命是什么【mobi】
 - 卷积神经网络的Python实现
@@ -100,7 +102,7 @@
 - UX设计师要懂工业设计  [✔]
 - Python编程导论（第2版）  [✔]
 - Kotlin从小白到大牛
-- Python数据科学手册
+- Python数据科学手册  [✔]
 - Python机器学习基础教程  [✔]
 - 统计学七支柱  [✔]
 - Python基础教程（第3版）  [✔]
@@ -718,6 +720,12 @@
 
 
 ## 异步
+- 华为HCNA路由与交换学习指南
+- 深度学习企业实战——基于R语言
+- Kafka Streams实战
+- Java零基础实战
+- 精通数据科学算法
+- Kotlin入门与实战
 - Java编程技术大全
 - 从零开始学Python（第2版）
 - PyTorch深度学习

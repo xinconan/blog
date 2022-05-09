@@ -4,7 +4,7 @@ class Event {
   }
 
   emit(type, ...args) {
-    const listeners = this.events[type];
+    const listeners = this.events[type] || [];
     for (const listener of listeners) {
       listener(...args);
     }

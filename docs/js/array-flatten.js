@@ -1,4 +1,6 @@
 function flatten(arr, deep = false) {
+  // array 原生
+  // arr.flat();
   let res = [];
   arr.forEach((item) => {
     if (Array.isArray(item)) {

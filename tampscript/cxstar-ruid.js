@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         畅想之星id助手
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  在资源页面显示ruid
 // @author       Xinconan
 // @match        https://www.cxstar.com/Book/*
 // @match        https://cxstar.com/Book/*
 // @match        https://*/interlibSSO/goto/*/++9bwrs-q9bnl/*
+// @match        http://*/interlibSSO/goto/*/++9bwrs-q9bnl/*
 // @match        http://*/vpn/54/https/www.cxstar.com/Book/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=cxstar.com
 // @grant        GM_addStyle

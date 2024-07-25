@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .outer {
+        background-color: #666;
+        max-height: calc(100vh - 200px);
+        width: 700px;
+        padding: 20px;
+        overflow: auto;
+        margin: auto;
+      }
+      .inner {
+        max-height: calc(100vh - 240px);
+        overflow: hidden;
+      }
+      .flex {
+        display: flex;
+      }
+      .column {
+        flex-direction: column;
+      }
+      .content-wrap {
+        flex: 1;
+        min-height: 0;
+      }
+      .nav {
+        width: 120px;
+        height: auto;
+        overflow: auto;
+        background-color: #fff;
+      }
+      .content {
+        flex: 1;
+        height: auto;
+        max-height: none;
+        overflow: auto;
+        background-color: #f00;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="inner flex column">
+        <div style="margin-bottom: 10px">
+          <p>模拟弹框高度不固定，内容不固定</p>
+          <p>只有一个滚动条的情况</p>
+          <p>2323233</p>
+        </div>
+        <div class="content-wrap flex">
+          <div class="flex" style="flex: 1;">
+            <div class="nav">
+              <ul>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+                <li>23423</li>
+              </ul>
+            </div>
+            <div class="content">
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+              <div>998883843949</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flex布局示例</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        display: flex;
+      }
+      .first-child {
+        width: 100px;
+        background-color: red;
+      }
+      .last-child {
+        width: 100px;
+        background-color: blue;
+        margin-left: auto;
+      }
+      .middle-child {
+        flex: 1;
+        max-width: max-content;
+        background-color: green;
+        overflow: hidden;
+      }
+      .truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="first-child">第一个子元素</div>
+      <div class="middle-child">
+        <p class="truncate">中间子元素2222222222222222</p>
+      </div>
+      <div class="middle-child">
+        <p class="truncate">中间子元素2222222222222222</p>
+      </div>
+      <div class="middle-child">
+        <p class="truncate">中间子元素22222222222</p>
+      </div>
+      <div class="middle-child">
+        <p class="truncate">中间子元素2222222222</p>
+      </div>
+      <div class="middle-child"><p class="truncate">中间子元素22222222</p></div>
+      <div class="middle-child"><p class="truncate">中间子元素2222</p></div>
+      <div class="middle-child">
+        <p class="truncate">中间子元素222222222</p>
+      </div>
+      <div class="last-child">最后一个子元素</div>
+    </div>
+  </body>
+</html>
